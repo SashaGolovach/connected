@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Connected.Middleware;
 using Connected.Models;
 using Connected.Services;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -63,9 +65,10 @@ namespace Connected
             services.AddSingleton<MongoDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
             services.AddSingleton<AppSettings>(sp => AppSettings.appSettings);
-            services.AddSingleton<UsersService>();
+            services.AddSingleton<IUsersService, UsersService>();
 
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IClientAuthorizationData, ClientAuthorizationData>();
             services.AddControllers();
         }
 
@@ -76,6 +79,7 @@ namespace Connected
             app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<AuthTokenMiddleware>();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

@@ -12,11 +12,11 @@ namespace Connected.Services
 {
     public class AuthService : IAuthService
     {
-        private UsersService _usersService;
+        private IUsersService _usersService;
         private AppSettings _appSettings;
 
         
-        public AuthService(UsersService usersService, AppSettings appSettings)
+        public AuthService(IUsersService usersService, AppSettings appSettings)
         {
             _usersService = usersService;
             _appSettings = appSettings;
@@ -24,7 +24,7 @@ namespace Connected.Services
 
         public async Task<UserAccessToken> Authenticate(Google.Apis.Auth.GoogleJsonWebSignature.Payload payload)
         {            
-            var user = _usersService.Get(payload.Email);
+            var user = _usersService.GetByUsername(payload.Email);
             if (user == null)
             {
                 user = new User
@@ -38,7 +38,7 @@ namespace Connected.Services
         
         public async Task<UserAccessToken> Authenticate(string username, string password)
         {
-            var user = _usersService.Get(username);
+            var user = _usersService.GetByUsername(username);
             if (user?.Password == password)
                 return CreateToken(user.Id);
             return null;
