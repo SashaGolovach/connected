@@ -1,4 +1,6 @@
-﻿namespace Connected.Models
+﻿using Google.Apis.Auth.OAuth2;
+
+namespace Connected.Models
 {
     public class ClientAuthorizationData : IClientAuthorizationData
     {

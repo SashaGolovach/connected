@@ -10,9 +10,11 @@ namespace Connected.Services
     public class UsersService : IUsersService
     {
         private readonly IMongoCollection<User> _usersDatabase;
+        private readonly IClientAuthorizationData _clientAuthorizationData;
 
-        public UsersService(MongoDatabaseSettings settings)
+        public UsersService(MongoDatabaseSettings settings, IClientAuthorizationData clientAuthorizationData)
         {
+            _clientAuthorizationData = clientAuthorizationData;
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _usersDatabase = database.GetCollection<User>("users");
@@ -30,14 +32,19 @@ namespace Connected.Services
             return user;
         }
 
-        public void Update(string id, User bookIn) =>
-            _usersDatabase.ReplaceOne(book => book.Id == id, bookIn);
+        public User GetCurrentUser()
+        {
+            return GetUserById(_clientAuthorizationData.UserId);
+        }
 
-        public void Remove(User bookIn) =>
-            _usersDatabase.DeleteOne(book => book.Id == bookIn.Id);
+        public void Update(string id, User user) =>
+            _usersDatabase.ReplaceOne(u => u.Id == id, user);
+
+        public void Remove(User user) =>
+            _usersDatabase.DeleteOne(u => u.Id == user.Id);
 
         public void Remove(string id) =>
-            _usersDatabase.DeleteOne(book => book.Id == id);
+            _usersDatabase.DeleteOne(u => u.Id == id);
 
         public User GetUserById(string userId) =>
             _usersDatabase.Find(user => user.Id == userId).FirstOrDefault();

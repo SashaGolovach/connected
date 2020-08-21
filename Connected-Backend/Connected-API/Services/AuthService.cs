@@ -13,13 +13,12 @@ namespace Connected.Services
     public class AuthService : IAuthService
     {
         private IUsersService _usersService;
-        private AppSettings _appSettings;
-
+        private readonly IOAuthTokenProvider _oAuthTokenProvider;
         
-        public AuthService(IUsersService usersService, AppSettings appSettings)
+        public AuthService(IUsersService usersService, IOAuthTokenProvider oAuthTokenProvider)
         {
             _usersService = usersService;
-            _appSettings = appSettings;
+            _oAuthTokenProvider = oAuthTokenProvider;
         }
 
         public async Task<UserAccessToken> Authenticate(Google.Apis.Auth.GoogleJsonWebSignature.Payload payload)
@@ -31,36 +30,19 @@ namespace Connected.Services
                 {
                     Email = payload.Email
                 };
-                _usersService.Create(user);
+                //_usersService.Create(user);
             }
-            return CreateToken(user.Id);
+            return _oAuthTokenProvider.RegisterToken(user.Id);
         }
         
         public async Task<UserAccessToken> Authenticate(string username, string password)
         {
             var user = _usersService.GetByUsername(username);
             if (user?.Password == password)
-                return CreateToken(user.Id);
+                return _oAuthTokenProvider.RegisterToken(user.Id);
             return null;
         }
         
-        private UserAccessToken CreateToken(string userId)
-        {
-            // authentication successful so generate jwt token
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.JwtSecret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[] 
-                {
-                    new Claim(ClaimTypes.Name, userId)
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var accessToken = new UserAccessToken(tokenHandler.WriteToken(token));
-            return accessToken;
-        } 
+        
     }
 }

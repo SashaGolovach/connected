@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Connected.DataProviders;
 using Connected.Middleware;
 using Connected.Models;
 using Connected.Services;
@@ -65,10 +66,14 @@ namespace Connected
             services.AddSingleton<MongoDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
             services.AddSingleton<AppSettings>(sp => AppSettings.appSettings);
-            services.AddSingleton<IUsersService, UsersService>();
+            services.AddSingleton<IOAuthTokenProvider, OAuthTokenProvider>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IClientAuthorizationData, ClientAuthorizationData>();
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<SpotifyApiDataProvider>();
+            services.AddScoped<ISpotifyDataProvider, SpotifyDataProvider>();
+            services.AddScoped<IHttpClientService<SpotifyApiDataProvider>, HttpClientService<SpotifyApiDataProvider>>();
             services.AddControllers();
         }
 
