@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Connected.DataProviders;
 using Connected.Middleware;
 using Connected.Models;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
 
 namespace Connected
 {
@@ -74,7 +76,11 @@ namespace Connected
             services.AddScoped<SpotifyApiDataProvider>();
             services.AddScoped<ISpotifyDataProvider, SpotifyDataProvider>();
             services.AddScoped<IHttpClientService<SpotifyApiDataProvider>, HttpClientService<SpotifyApiDataProvider>>();
-            services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
+            services.AddControllers().AddNewtonsoftJson(opt =>
+            {
+                opt.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using AutoMapper;
 using Connected.Models;
 using Connected.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -13,27 +15,34 @@ namespace Connected.Controllers
     {
         private readonly IClientAuthorizationData _clientAuthorizationData;
         private readonly IUsersService _usersService;
+        private readonly IMapper _mapper;
 
-        public UserController(IClientAuthorizationData clientAuthorizationData, IUsersService usersService)
+        public UserController(IClientAuthorizationData clientAuthorizationData, IUsersService usersService,
+            IMapper mapper)
         {
             _clientAuthorizationData = clientAuthorizationData;
             _usersService = usersService;
+            _mapper = mapper;
         }
 
         [HttpGet("me")]
-        public IActionResult GetCurrentUser()
+        public ActionResult GetCurrentUser()
         {
-           var currentUser = _usersService.GetUserById(_clientAuthorizationData.UserId);
-           return new JsonResult(currentUser);
+            var currentUser = _usersService.GetUserById(_clientAuthorizationData.UserId);
+            if (currentUser == null)
+                return new NotFoundResult();
+            var userView = _mapper.Map<UserView>(currentUser);
+            return new JsonResult(userView);
         }
-        
+
         [HttpGet("")]
-        public IActionResult GetUsers()
+        public IEnumerable<UserView> GetUsers()
         {
             var users = _usersService.GetUsers(user => user.Id != _clientAuthorizationData.UserId);
-            return new JsonResult(users);
+            var userViews = _mapper.Map<IEnumerable<UserView>>(users);
+            return userViews;
         }
-        
+
         [HttpPost("")]
         [AllowAnonymous]
         public IActionResult CreateUser(User user)

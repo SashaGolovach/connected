@@ -32,6 +32,7 @@ namespace Connected.Services
             content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
             SetHeaders(httpClient, headers);
             HttpResponseMessage response = await httpClient.PostAsync(url, content);
+            response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsAsync<TResult>();
         }
 

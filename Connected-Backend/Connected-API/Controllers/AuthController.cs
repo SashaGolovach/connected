@@ -49,26 +49,26 @@ namespace Connected.Controllers
         {
             var user = _usersService.GetCurrentUser();
             var accessToken = await _spotifyApiDataProvider.Authentificate(loginModel);
-            user.SpotifyUserCredentials = accessToken;
+            user.ConnectedServicesCredentials.SpotifyUserCredentials = accessToken;
             _usersService.Update(user.Id, user);
             return new OkResult();
         }
 
-        [AllowAnonymous]
-        [HttpPost("google")]
-        public async Task<IActionResult> Google([FromBody] UserView userView)
-        {
-            try
-            {
-                var payload = GoogleJsonWebSignature
-                    .ValidateAsync(userView.tokenId, new GoogleJsonWebSignature.ValidationSettings()).Result;
-                var token = await _authService.Authenticate(payload);
-                return new JsonResult(token);
-            }
-            catch (Exception ex)
-            {
-                return new BadRequestResult();
-            }
-        }
+        // [AllowAnonymous]
+        // [HttpPost("google")]
+        // public async Task<IActionResult> Google([FromBody] UserView userView)
+        // {
+        //     try
+        //     {
+        //         var payload = GoogleJsonWebSignature
+        //             .ValidateAsync(userView.tokenId, new GoogleJsonWebSignature.ValidationSettings()).Result;
+        //         var token = await _authService.Authenticate(payload);
+        //         return new JsonResult(token);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return new BadRequestResult();
+        //     }
+        // }
     }
 }

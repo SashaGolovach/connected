@@ -27,7 +27,7 @@ namespace Connected.DataProviders
             {
                 case AuthorizationType.ClientAuth:
                     var user = _usersService.GetCurrentUser();
-                    headers.Add("Authorization", $"{user.SpotifyUserCredentials.TokenType} {user.SpotifyUserCredentials.AccessToken}");
+                    headers.Add("Authorization", $"{user.ConnectedServicesCredentials.SpotifyUserCredentials.TokenType} {user.ConnectedServicesCredentials.SpotifyUserCredentials.AccessToken}");
                     break;
                 case AuthorizationType.ServerAuth:
                     headers.Add("Authorization", "Basic " + $"{_appSettings.SpotifyClientId}:{_appSettings.SpotifyClientSecret}".ToBase64());

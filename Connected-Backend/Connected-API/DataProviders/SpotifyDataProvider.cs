@@ -34,7 +34,7 @@ namespace Connected.DataProviders
             {
                 new KeyValuePair<string, string>("grant_type", "authorization_code"),
                 new KeyValuePair<string, string>("code", authRequest.AuthorizationCode),
-                new KeyValuePair<string, string>("redirect_uri", "http://localhost:3000/")
+                new KeyValuePair<string, string>("redirect_uri", @"http://localhost:3000/connections?isSpotify=true")
             };
             var token = await _httpClientService.PostFormUrlEncoded<SpotifyUserCredentials>("api/token", data);
             return token;

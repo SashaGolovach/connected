@@ -15,5 +15,7 @@ namespace Connected.Models
         [JsonProperty("scope")]
 
         public string Scope { get; set; }
+        
+        public bool Connected => !string.IsNullOrEmpty(AccessToken);
     }
 }
