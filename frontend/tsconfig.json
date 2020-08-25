@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "module": "esnext",
+    "target": "es5",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "noFallthroughCasesInSwitch": false,
+    "allowJs": true,
+    "lib": ["dom", "es2015", "es5", "es6", "es7", "es2017.object"],
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "downlevelIteration": true,
+    "baseUrl": "./",
+    "resolveJsonModule": true
+  },
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "./**/*.js"],
+  "paths": {
+    "src/*": "src/*"
+  }
+}
