@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 import { IDispatch, IAction } from 'src/typings';
 import { showLoader, hideLoader } from '../loader';
 import { addToastr } from '../toastrs';
@@ -37,10 +39,13 @@ export const login: TLogin = (
     dispatch(action);
     localStorage.setItem('accessToken', Token);
     history.push('/connections');
-  } catch {
+  } catch (e) {
+    const message = get(e, 'response.data.Message');
+
     dispatch(
       addToastr({
         type: 'error',
+        message: message,
       })
     );
   } finally {

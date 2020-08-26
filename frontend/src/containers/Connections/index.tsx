@@ -1,10 +1,13 @@
 import React, { FC, useEffect } from 'react';
 
-import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
 
-import { Redirect } from 'src/routers';
 import { useDispatch, useSelector } from 'src/store/hooks';
 import { connectToSpotify } from 'src/store/actions/connections';
+import Sidebar from 'src/components/Sidebar';
+
+const SpotifyIcon = require('src/assets/svg/spotify.svg');
+const ConnectedIcon = require('src/assets/svg/connected.svg');
 
 import { IProps } from './interface';
 
@@ -17,11 +20,6 @@ const Connections: FC<IProps> = props => {
   const dispatch = useDispatch();
 
   const userMe = useSelector(state => state.users.userMe);
-  const hasConnectedService = !!userMe && !!userMe.ConnectedServices.length;
-
-  const { from } = props.location.state || {
-    from: { pathname: '/users' },
-  };
 
   useEffect(() => {
     (async () => {
@@ -35,31 +33,38 @@ const Connections: FC<IProps> = props => {
     })();
   }, []);
 
-  if (hasConnectedService) {
-    return <Redirect to={from} />;
-  }
-
   return (
-    <div className={Styles.connectionsContainer}>
-      <h2>Your connections:</h2>
-      <ul className={Styles.connections}>
-        <li>
-          Spotify
-          {userMe &&
-          userMe.ConnectedServices.some(
-            connectedService => connectedService === 'Spotify'
-          ) ? (
-            <Link href="/users" color="secondary">
-              Go to users
-            </Link>
-          ) : (
-            <Link href={SPOTIFY_LOGIN_URL} color="secondary">
-              Connect
-            </Link>
-          )}
-        </li>
-      </ul>
-    </div>
+    <Sidebar>
+      <div className={Styles.connectionsContainer}>
+        <h2 className={Styles.title}>Your connections:</h2>
+        <ul className={Styles.connections}>
+          <li>
+            <div className={Styles.connection}>
+              <SpotifyIcon className={Styles.icon} />
+              Spotify
+            </div>
+
+            {userMe &&
+            userMe.ConnectedServices.some(
+              connectedService => connectedService === 'Spotify'
+            ) ? (
+              <span className={Styles.connected}>
+                <ConnectedIcon />
+                Connected
+              </span>
+            ) : (
+              <Button
+                variant="contained"
+                color="secondary"
+                href={SPOTIFY_LOGIN_URL}
+              >
+                Connect
+              </Button>
+            )}
+          </li>
+        </ul>
+      </div>
+    </Sidebar>
   );
 };
 

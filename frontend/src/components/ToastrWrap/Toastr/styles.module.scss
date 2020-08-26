@@ -81,15 +81,13 @@
   padding: 8px;
   transition: fill 64ms ease;
 
-  :hover {
-    path {
+  &:hover {
+    svg path {
       fill: #fafafa;
     }
   }
-  svg {
-    path {
-      fill: #fff;
-    }
+  svg path {
+    fill: #fff;
   }
 }
 

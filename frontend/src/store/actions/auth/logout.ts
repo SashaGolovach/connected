@@ -1,13 +1,13 @@
-import { IDispatch, IAction } from '../../../typings';
+import { IDispatch, IAction } from 'src/typings';
+import { IHistory } from 'src/routers';
 import { showLoader, hideLoader } from '../loader';
 import { addToastr } from '../toastrs';
-import { send } from '../../../utils';
 
 export interface ILogout extends IAction<'LOGOUT'> {}
 
-type TLogout = () => (dispatch: IDispatch) => void;
+type TLogout = (history: IHistory) => (dispatch: IDispatch) => void;
 
-export const logout: TLogout = () => async dispatch => {
+export const logout: TLogout = history => async dispatch => {
   dispatch(showLoader());
 
   try {
@@ -17,6 +17,7 @@ export const logout: TLogout = () => async dispatch => {
     };
     dispatch(action);
     localStorage.clear();
+    history.push('/login');
   } catch {
     dispatch(
       addToastr({

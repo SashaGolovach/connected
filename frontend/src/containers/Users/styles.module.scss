@@ -1,6 +1,20 @@
-.connectionsContainer {
+.usersWrap {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+}
+
+.usersContainer {
   max-width: 400px;
   margin: 0 auto;
+}
+
+.search {
+  max-width: 400px;
+  align-self: flex-end;
 }
 
 .title {
@@ -10,7 +24,7 @@
   line-height: 48px;
 }
 
-.connections {
+.users {
   width: 386px;
   padding: 0;
   border: 1px solid #ddd;
@@ -20,7 +34,8 @@
 
   li {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: flex-start;
     padding: 20px;
     border-bottom: 1px solid #ddd;
     color: #454545;
@@ -31,29 +46,8 @@
   }
 }
 
-.connection {
-  display: flex;
-  align-items: center;
-
-  .icon {
-    width: 32px;
-    height: 32px;
-    margin-right: 8px;
-  }
-}
-
-.connected {
-  display: flex;
-  align-items: center;
-  color: #209225;
-
-  svg {
-    width: 24px;
-    height: 24px;
-    margin-right: 4px;
-
-    path {
-      fill: #209225;
-    }
-  }
+.avatar {
+  margin-right: 8px;
+  background: #3d7c94 !important;
+  font-size: 14px !important;
 }

@@ -27,37 +27,3 @@
     height: 50px;
   }
 }
-
-.profile {
-  position: relative;
-  &:hover {
-    .userInfo {
-      display: block;
-    }
-  }
-}
-
-.user {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-
-  span {
-    margin-right: 10px;
-  }
-}
-
-.userInfo {
-  position: absolute;
-  z-index: 3;
-  top: 100%;
-  right: 0px;
-  display: none;
-  padding: 20px;
-  background: #b8b8b8;
-  border-radius: 5px;
-}
-
-.avatar {
-  font-size: 14px;
-}
