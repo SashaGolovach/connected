@@ -75,7 +75,7 @@ namespace Connected
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<SpotifyApiDataProvider>();
             services.AddScoped<ISpotifyDataProvider, SpotifyDataProvider>();
-            services.AddScoped<IHttpClientService<SpotifyApiDataProvider>, HttpClientService<SpotifyApiDataProvider>>();
+            services.AddScoped<IHttpClientService, HttpClientService>();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers().AddNewtonsoftJson(opt =>
             {
@@ -91,6 +91,7 @@ namespace Connected
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseMiddleware<AuthTokenMiddleware>();
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

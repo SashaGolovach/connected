@@ -11,23 +11,13 @@ using Newtonsoft.Json;
 
 namespace Connected.Services
 {
-    public class HttpClientService<TApiProvider> : IHttpClientService<TApiProvider>
-        where TApiProvider : IApiDataProvider
+    public class HttpClientService : IHttpClientService
     {
-        private readonly TApiProvider _apiProvider;
-
-        public HttpClientService(TApiProvider apiProvider)
-        {
-            _apiProvider = apiProvider;
-        }
-
         public async Task<TResult> PostFormUrlEncoded<TResult>(string url,
-            IEnumerable<KeyValuePair<string, string>> data)
+            IEnumerable<KeyValuePair<string, string>> data, Dictionary<string, string> headers = default)
         {
             using var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(@"https://accounts.spotify.com");
             using var content = new FormUrlEncodedContent(data);
-            var headers = _apiProvider.GetServiceHeaders(AuthorizationType.ServerAuth);
             content.Headers.Clear();
             content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
             SetHeaders(httpClient, headers);
@@ -47,8 +37,8 @@ namespace Connected.Services
                         (message, cert, chain, errors) => true;
                     using (var client = new HttpClient(httpClientHandler))
                     {
-                        SetHeaders(client, _apiProvider.GetServiceHeaders(AuthorizationType.ClientAuth));
-                        HttpResponseMessage response = await client.PostAsync(_apiProvider.BaseApiUrl + url, stringContent);
+                        SetHeaders(client, headers);
+                        HttpResponseMessage response = await client.PostAsync(url, stringContent);
                         response.EnsureSuccessStatusCode();
                         byte[] responseBytes = await response.Content.ReadAsByteArrayAsync();
                         string responseString = Encoding.UTF8.GetString(responseBytes);
@@ -62,7 +52,7 @@ namespace Connected.Services
             }
         }
 
-        public async Task<T> GetAsync<T>(string url)
+        public async Task<T> GetAsync<T>(string url,  Dictionary<string, string> headers = default)
         {
             try
             {
@@ -72,8 +62,8 @@ namespace Connected.Services
                         (message, cert, chain, errors) => true;
                     using (var client = new HttpClient(httpClientHandler))
                     {
-                        SetHeaders(client, _apiProvider.GetServiceHeaders(AuthorizationType.ClientAuth));
-                        HttpResponseMessage response = await client.GetAsync(_apiProvider.BaseApiUrl + url);
+                        SetHeaders(client, headers);
+                        HttpResponseMessage response = await client.GetAsync(url);
                         response.EnsureSuccessStatusCode();
                         byte[] responseBytes = await response.Content.ReadAsByteArrayAsync();
                         string responseString = Encoding.UTF8.GetString(responseBytes);

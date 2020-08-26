@@ -29,8 +29,6 @@ namespace Connected.Controllers
         public ActionResult GetCurrentUser()
         {
             var currentUser = _usersService.GetUserById(_clientAuthorizationData.UserId);
-            if (currentUser == null)
-                return new NotFoundResult();
             var userView = _mapper.Map<UserView>(currentUser);
             return new JsonResult(userView);
         }
@@ -41,14 +39,6 @@ namespace Connected.Controllers
             var users = _usersService.GetUsers(user => user.Id != _clientAuthorizationData.UserId);
             var userViews = _mapper.Map<IEnumerable<UserView>>(users);
             return userViews;
-        }
-
-        [HttpPost("")]
-        [AllowAnonymous]
-        public IActionResult CreateUser(User user)
-        {
-            _usersService.Create(user);
-            return new OkResult();
         }
     }
 }

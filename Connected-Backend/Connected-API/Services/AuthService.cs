@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Connected.Services
     {
         private IUsersService _usersService;
         private readonly IOAuthTokenProvider _oAuthTokenProvider;
-        
+
         public AuthService(IUsersService usersService, IOAuthTokenProvider oAuthTokenProvider)
         {
             _usersService = usersService;
@@ -22,7 +23,7 @@ namespace Connected.Services
         }
 
         public async Task<UserAccessToken> Authenticate(Google.Apis.Auth.GoogleJsonWebSignature.Payload payload)
-        {            
+        {
             var user = _usersService.GetByUsername(payload.Email);
             if (user == null)
             {
@@ -32,17 +33,16 @@ namespace Connected.Services
                 };
                 //_usersService.Create(user);
             }
+
             return _oAuthTokenProvider.RegisterToken(user.Id);
         }
-        
+
         public async Task<UserAccessToken> Authenticate(string username, string password)
         {
             var user = _usersService.GetByUsername(username);
-            if (user?.Password == password)
-                return _oAuthTokenProvider.RegisterToken(user.Id);
-            return null;
+            if (user?.Password != password)
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Invalid credentials");
+            return _oAuthTokenProvider.RegisterToken(user.Id);
         }
-        
-        
     }
 }
