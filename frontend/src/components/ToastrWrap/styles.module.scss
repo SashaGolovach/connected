@@ -1,0 +1,19 @@
+.toastrWrap {
+  position: fixed;
+  z-index: 105;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.topRight {
+  position: absolute;
+  right: auto;
+  left: 100%;
+  width: 400px;
+  transform: translateX(-100%);
+}
+
+.topCenter {
+  width: 100%;
+}

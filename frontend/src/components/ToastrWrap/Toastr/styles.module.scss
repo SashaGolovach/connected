@@ -1,0 +1,114 @@
+.toastr {
+  display: flex;
+  width: calc(100% - 24px);
+  min-height: 72px;
+  flex-direction: row;
+  align-content: stretch;
+  margin: 10px auto 0;
+  backface-visibility: hidden;
+  border-radius: 4px;
+  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.24);
+  transition: all 0.3s ease-out;
+
+  &.success {
+    background-color: #66bb6a;
+  }
+
+  &.error {
+    background-color: #ef5350;
+  }
+
+  &.info {
+    background-color: #42a5f5;
+  }
+
+  &.warning {
+    background-color: #ffca28;
+  }
+}
+
+.toastrContainer {
+  display: flex;
+  width: calc(100% - 10px);
+  align-items: center;
+  padding: 20px 16px;
+  border-radius: 4px 0 0 4px;
+
+  path {
+    fill: #fff;
+  }
+}
+
+.toastrContent {
+  width: 90%;
+}
+
+.toastrStatusIcon {
+  display: flex;
+  min-width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+
+  path {
+    fill: #fff;
+  }
+}
+
+.toastrTitle {
+  overflow: hidden;
+  margin: 0 0 0 10px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toastrMessage {
+  margin: 0 0 0 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+}
+
+.toastrBtnClose {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  padding: 8px;
+  transition: fill 64ms ease;
+
+  &:hover {
+    svg path {
+      fill: #fafafa;
+    }
+  }
+  svg path {
+    fill: #fff;
+  }
+}
+
+.topRight {
+  opacity: 0;
+  transform: translate3d(12px, 0, 0);
+
+  &.visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.topCenter {
+  width: calc(100% - 24px);
+  max-width: 400px;
+  opacity: 0;
+  transform: translateY(-12px);
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(8px);
+  }
+}

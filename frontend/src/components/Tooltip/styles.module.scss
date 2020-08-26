@@ -1,0 +1,359 @@
+.hint {
+  position: relative;
+  display: inline-block;
+
+  &::before,
+  &::after {
+    position: absolute;
+    z-index: 1000;
+    color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(0, 0, 0);
+    transition: 62ms ease;
+    transition-delay: 100ms;
+    visibility: hidden;
+  }
+  &.isShown {
+    &::before,
+    &::after {
+      opacity: 1;
+      visibility: visible;
+    }
+    &::before,
+    &::after {
+      -webkit-transition-delay: 100ms;
+      -moz-transition-delay: 100ms;
+      transition-delay: 100ms;
+    }
+  }
+  &::before {
+    position: absolute;
+    z-index: 1001;
+    border: 8px solid transparent;
+    background: transparent;
+    content: '';
+  }
+  &::after {
+    padding: 8px 12px;
+    background: $gray-700;
+    border-radius: 3px;
+    white-space: pre;
+    @include font(12px, #fff, 400, 1.33);
+  }
+  &[aria-label]::after {
+    content: attr(aria-label);
+  }
+  &[data-hint]::after {
+    content: attr(data-hint);
+  }
+}
+
+[aria-label=''] {
+  &::before,
+  &::after {
+    display: none !important;
+  }
+}
+
+[data-hint=''] {
+  &::before,
+  &::after {
+    display: none !important;
+  }
+}
+
+/**
+ * source: hint-position.scss
+ *
+ * Defines the positoning logic for the tooltips.
+ *
+ * Classes added:
+ * 	1) hint--top
+ * 	2) hint--bottom
+ * 	3) hint--left
+ * 	4) hint--right
+ */
+
+/**
+ * set default color for tooltip arrows
+ */
+
+.hint--top-left::before,
+.hint--top-right::before,
+.hint--top::before {
+  border-top-color: $gray-700;
+}
+
+.hint--bottom-left::before,
+.hint--bottom-right::before,
+.hint--bottom::before {
+  border-bottom-color: $gray-700;
+}
+
+.hint--left::before {
+  border-left-color: $gray-700;
+}
+
+.hint--right::before {
+  border-right-color: $gray-700;
+}
+.hint--top.light::before {
+  border-top-color: #fff;
+  border-left-color: #fff;
+}
+
+.hint--bottom-left.light::before,
+.hint--bottom-right.light::before,
+.hint--bottom.light::before {
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+}
+
+.hint--left.light::before {
+  border-bottom-color: #fff;
+  border-left-color: #fff;
+}
+
+.hint--right.light::before {
+  border-top-color: #fff;
+  border-right-color: #fff;
+}
+
+/**
+ * top tooltip
+ */
+
+.hint--top {
+  &::before {
+    bottom: 100%;
+    left: 50%;
+    margin-bottom: -11px;
+  }
+  &::after {
+    bottom: 100%;
+    left: 50%;
+  }
+  &::before {
+    left: calc(50% - 8px);
+  }
+  &::after {
+    transform: translateX(-50%);
+  }
+  &.isShown {
+    &::before {
+      transform: translateY(-8px);
+    }
+    &::after {
+      transform: translateX(-50%) translateY(-12px);
+    }
+  }
+}
+
+/**
+ * bottom tooltip
+ */
+
+.hint--bottom {
+  &::before {
+    top: 100%;
+    left: 50%;
+    margin-top: -11px;
+  }
+  &::after {
+    top: 100%;
+    left: 50%;
+  }
+  &::before {
+    left: calc(50% - 8px);
+  }
+  &::after {
+    transform: translateX(-50%);
+  }
+  &.isShown {
+    &::before {
+      transform: translateY(8px);
+    }
+    &::after {
+      transform: translateX(-50%) translateY(12px);
+    }
+  }
+}
+
+/**
+ * right tooltip
+ */
+
+.hint--right {
+  &::before {
+    margin-bottom: -8px;
+    margin-left: -11px;
+  }
+  &::after {
+    transform: translateY(50%);
+  }
+  &::before,
+  &::after {
+    bottom: 50%;
+    left: 100%;
+  }
+  &.isShown {
+    &::before {
+      transform: translateX(8px);
+    }
+    &::after {
+      transform: translateX(12px) translateY(50%);
+    }
+  }
+}
+
+/**
+ * left tooltip
+ */
+
+.hint--left {
+  &::before {
+    margin-right: -11px;
+    margin-bottom: -8px;
+  }
+  &::after {
+    transform: translateY(50%);
+  }
+  &::before,
+  &::after {
+    right: 100%;
+    bottom: 50%;
+  }
+  &.isShown {
+    &::before {
+      transform: translateX(-8px);
+    }
+    &::after {
+      transform: translateX(-12px) translateY(50%);
+    }
+  }
+}
+
+/**
+ * top-left tooltip
+ */
+
+.hint--top-left {
+  &::before {
+    bottom: 100%;
+    left: 50%;
+    margin-bottom: -11px;
+  }
+  &::after {
+    bottom: 100%;
+    left: 50%;
+  }
+  &::before {
+    left: calc(50% - 8px);
+  }
+  &::after {
+    margin-left: 14px;
+    transform: translateX(-100%);
+  }
+  &.isShown {
+    &::before {
+      transform: translateY(-8px);
+    }
+    &::after {
+      transform: translateX(-100%) translateY(-12px);
+    }
+  }
+}
+
+/**
+ * top-right tooltip
+ */
+
+.hint--top-right {
+  &::before {
+    bottom: 100%;
+    left: 50%;
+    margin-bottom: -12px;
+  }
+  &::after {
+    bottom: 100%;
+    left: 50%;
+  }
+  &::before {
+    left: calc(50% - 8px);
+  }
+  &::after {
+    margin-left: -14px;
+    transform: translateX(0);
+  }
+  &.isShown {
+    &::before {
+      transform: translateY(-9px);
+    }
+    &::after {
+      transform: translateY(-12px);
+    }
+  }
+}
+
+/**
+ * bottom-left tooltip
+ */
+
+.hint--bottom-left {
+  &::before {
+    top: 100%;
+    left: 50%;
+    margin-top: -11px;
+  }
+  &::after {
+    top: 100%;
+    left: 50%;
+  }
+  &::before {
+    left: calc(50% - 8px);
+  }
+  &::after {
+    margin-left: 14px;
+    transform: translateX(-100%);
+  }
+  &.isShown {
+    &::before {
+      transform: translateY(8px);
+    }
+    &::after {
+      transform: translateX(-100%) translateY(12px);
+    }
+  }
+}
+
+/**
+ * bottom-right tooltip
+ */
+
+.hint--bottom-right {
+  &::before {
+    top: 100%;
+    left: 50%;
+    margin-top: -11px;
+  }
+  &::after {
+    top: 100%;
+    left: 50%;
+  }
+  &::before {
+    left: calc(50% - 8px);
+  }
+  &::after {
+    margin-left: -14px;
+    transform: translateX(0);
+  }
+  &.isShown {
+    &::before {
+      transform: translateY(8px);
+    }
+    &::after {
+      transform: translateY(12px);
+    }
+  }
+}
