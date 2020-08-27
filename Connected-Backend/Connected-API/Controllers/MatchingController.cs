@@ -32,7 +32,7 @@ namespace Connected.Controllers
         {
             var currentUser = _usersService.GetUserById(_clientAuthorizationData.UserId);
             var matchingUser = _usersService.GetUserById(userId);
-            var response = new MatchUsersResponse
+            var response = new MatchUserResult
             {
                 Score = 50
             };
@@ -41,7 +41,7 @@ namespace Connected.Controllers
                 var myTracks = (await _spotifyApiDataProvider.GetUserTracks(currentUser.Id)).ToArray();
                 var userTracks = (await _spotifyApiDataProvider.GetUserTracks(matchingUser.Id)).ToArray();
                 var commonTracks = myTracks.Intersect(userTracks).ToArray();
-                response.Score = commonTracks.Length / (myTracks.Length + userTracks.Length);
+                response.Score = commonTracks.Length / (myTracks.Length + userTracks.Length) * 100;
             }
             catch (Exception e)
             {

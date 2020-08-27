@@ -1,6 +1,6 @@
 ﻿namespace Connected.Models
 {
-    public class MatchUsersResponse
+    public class MatchUserResult
     {
         public int Score { get; set; }
     }

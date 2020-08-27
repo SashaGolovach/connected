@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  db:
+    image: 'mongo'
+    restart: always
+    container_name: 'connected-mongo'
+    ports:
+        - '27017-27019:27017-27019'
+    expose:
+        - 27017-27019
+    volumes:
+        - my-db:/data/db
+  connected-api:
+    image: result/latest
+    build:
+        context: ./Connected-Backend/Connected-API
+        dockerfile: Dockerfile
+    environment:
+        - Kestrel__Certificates__Default__Path=/app/Infrastructure/Certificate/certificate.pfx
+        - Kestrel__Certificates__Default__Password=password
+    volumes:
+        - D:\:/app/Infrastructure/Certificate
+    ports:
+        - '8080:5000'
+
+# Names our volume
+volumes:
+  my-db:
