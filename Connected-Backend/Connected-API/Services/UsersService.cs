@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Net;
 using Connected.Models;
 using MongoDB.Driver;
 using MongoDatabaseSettings = Connected.Models.MongoDatabaseSettings;
@@ -24,7 +25,8 @@ namespace Connected.Services
             _usersDatabase.Find(filter).ToList();
 
         public User GetByUsername(string username) =>
-            _usersDatabase.Find<User>(user => user.Username == username).FirstOrDefault();
+            _usersDatabase.Find<User>(user => user.Username == username).FirstOrDefault()
+            ?? throw new HttpException((int) HttpStatusCode.NotFound, "User not found");
 
         public User Create(User user)
         {
@@ -47,6 +49,7 @@ namespace Connected.Services
             _usersDatabase.DeleteOne(u => u.Id == id);
 
         public User GetUserById(string userId) =>
-            _usersDatabase.Find(user => user.Id == userId).FirstOrDefault();
+            _usersDatabase.Find(user => user.Id == userId).FirstOrDefault()
+            ?? throw new HttpException((int) HttpStatusCode.NotFound, "User not found");
     }
 }
