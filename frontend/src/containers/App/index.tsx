@@ -13,6 +13,7 @@ import { accessToken } from 'src/utils';
 import Login from '../Login';
 import Connections from '../Connections';
 import Users from '../Users';
+import Match from '../Match';
 
 import { IProps } from './interface';
 import Styles from './styles.module.scss';
@@ -49,6 +50,13 @@ const App: React.FC<IProps> = () => {
           path="/users"
           exact
           Component={Users}
+          condition={isLoggedIn}
+          redirect="/login"
+        />
+        <PrivateRoute
+          path="/match/:id"
+          exact
+          Component={Match}
           condition={isLoggedIn}
           redirect="/login"
         />

@@ -6,7 +6,9 @@ export type routes =
   | '/sign-up'
   | '/forgot-password'
   | '/connections'
-  | '/users';
+  | '/users'
+  | '/match'
+  | string;
 
 export interface IRouteProps extends IGlobalRouteProps<routes> {}
 export interface IHistory extends IGlobalHistory<routes> {}

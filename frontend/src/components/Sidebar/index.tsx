@@ -25,32 +25,32 @@ const Sidebar: FC<IProps> = ({ children, history }) => {
       <div className={Styles.sidebar}>
         <LogoIcon className={Styles.logo} />
         <div className={Styles.navbar}>
-          <ul className={Styles.navbarList}>
-            <li className={Styles.navbarItem}>
-              <NavLink
-                className={Styles.navbarLink}
-                activeClassName={Styles.isActive}
-                to="/users"
-                replace
-              >
-                <UsersIcon />
-              </NavLink>
-            </li>
-          </ul>
-          <div className={Styles.userInfo}>
+          <div>
             <Link to="/connections" className={Styles.user}>
               <Avatar className={Styles.avatar}>US</Avatar>
-              <span>{userMe ? userMe.Username : 'No name'}</span>
             </Link>
-            <Button
-              onClick={() => {
-                dispatch(logout(history));
-              }}
-              className={Styles.logoutBtn}
-            >
-              <LogoutIcon></LogoutIcon>
-            </Button>
+            <ul className={Styles.navbarList}>
+              <li className={Styles.navbarItem}>
+                <NavLink
+                  className={Styles.navbarLink}
+                  activeClassName={Styles.isActive}
+                  to="/users"
+                  replace
+                >
+                  <UsersIcon />
+                </NavLink>
+              </li>
+            </ul>
           </div>
+
+          <Button
+            onClick={() => {
+              dispatch(logout(history));
+            }}
+            className={Styles.logoutBtn}
+          >
+            <LogoutIcon></LogoutIcon>
+          </Button>
         </div>
       </div>
       {children}

@@ -2,9 +2,10 @@ import React, { FC, useEffect, useState } from 'react';
 
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import { useDispatch, useSelector } from 'src/store/hooks';
-import { getUsers } from 'src/store/actions/users';
+import { getUsers, getMatch } from 'src/store/actions/users';
 
 import Sidebar from 'src/components/Sidebar';
 
@@ -12,7 +13,9 @@ import { IProps } from './interface';
 
 import Styles from './styles.module.scss';
 
-const Users: FC<IProps> = () => {
+import { Pie } from 'react-chartjs-2';
+
+const Users: FC<IProps> = props => {
   const dispatch = useDispatch();
 
   const users = useSelector(state => state.users.users);
@@ -42,11 +45,23 @@ const Users: FC<IProps> = () => {
           <ul className={Styles.users}>
             {users.map(user => (
               <li key={user.Id}>
-                <Avatar className={Styles.avatar}>
-                  {user.FirstName[0]}
-                  {user.LastName[0]}
-                </Avatar>
-                {user.FirstName} {user.LastName}
+                <div className={Styles.user}>
+                  <Avatar className={Styles.avatar}>
+                    {user.FirstName[0]}
+                    {user.LastName[0]}
+                  </Avatar>
+                  {user.FirstName} {user.LastName}
+                </div>
+
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => {
+                    props.history.push(`/match/${user.Id}`);
+                  }}
+                >
+                  Match
+                </Button>
               </li>
             ))}
           </ul>

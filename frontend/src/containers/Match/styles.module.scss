@@ -1,0 +1,25 @@
+.matchWrap {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.title {
+  color: #554d56;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 48px;
+}
+
+.match {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}

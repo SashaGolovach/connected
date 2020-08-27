@@ -13,4 +13,5 @@ export interface IUser extends IUserMe {}
 export interface IUsersObj {
   userMe: IUserMe;
   users: IUser[];
+  score: number;
 }

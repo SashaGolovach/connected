@@ -1,6 +1,12 @@
 import axios, { AxiosResponse, AxiosInstance } from 'axios';
 
-type endpoints = 'auth/token' | 'auth/spotify' | 'users' | 'users/me';
+type endpoints =
+  | 'auth/token'
+  | 'auth/spotify'
+  | 'users'
+  | 'users/me'
+  | 'match'
+  | string;
 
 type methods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 

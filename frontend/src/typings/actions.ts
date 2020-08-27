@@ -20,7 +20,8 @@ export type reduxActions =
   | 'CONNECT_TO_SPOTIFY'
   //Users
   | 'GET_USER_ME'
-  | 'GET_USERS';
+  | 'GET_USERS'
+  | 'GET_MATCH';
 
 export interface IAction<T extends reduxActions = reduxActions>
   extends Action<T> {}
