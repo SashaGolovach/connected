@@ -14,7 +14,7 @@ import { IProps } from './interface';
 import Styles from './styles.module.scss';
 
 const SPOTIFY_LOGIN_URL =
-  'https://accounts.spotify.com/authorize?response_type=code&client_id=626a574974ec4763b0c8d9a327ecbd5a&redirect_uri=http://localhost:3000/connections?isSpotify=true&scope=user-read-private user-library-read';
+  'https://accounts.spotify.com/authorize?response_type=code&client_id=626a574974ec4763b0c8d9a327ecbd5a&redirect_uri=https://connected-eu.netlify.app/connections?isSpotify=true&scope=user-read-private user-library-read';
 
 const Connections: FC<IProps> = props => {
   const dispatch = useDispatch();

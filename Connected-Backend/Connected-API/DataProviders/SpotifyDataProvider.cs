@@ -40,7 +40,7 @@ namespace Connected.DataProviders
             {
                 new KeyValuePair<string, string>("grant_type", "authorization_code"),
                 new KeyValuePair<string, string>("code", authRequest.AuthorizationCode),
-                new KeyValuePair<string, string>("redirect_uri", @"http://localhost:3000/connections?isSpotify=true")
+                new KeyValuePair<string, string>("redirect_uri", @"https://connected-eu.netlify.app/connections?isSpotify=true")
             };
             var headers = _spotifyApiDataProvider.GetApiCredentialHeaders();
             var token = await _httpClientService.PostFormUrlEncoded<SpotifyUserCredentials>(_spotifyApiDataProvider.SpotifyAuthBaseAddress + "api/token", data, headers);
