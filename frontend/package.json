@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --progress --color --http --port=3000 --open --config ./webpack.config.dev.js",
-    "build": "webpack --config ./webpack.config.prod.js",
+    "build": "webpack --config ./webpack.config.prod.js && cp _redirects dist/",
     "types:check:watch": "tsc --skipLibCheck --allowJs --watch"
   },
   "lint-staged": {
