@@ -50,9 +50,7 @@ const Match: FC<IProps> = props => {
     <Sidebar>
       <div className={Styles.matchWrap}>
         <h2 className={Styles.title}>Congratulations 🎉</h2>
-        <div className={Styles.match}>
-          <Pie data={data} height={300} width={300} options={options} />
-        </div>
+        <Pie data={data} height={300} width={300} options={options} />
       </div>
     </Sidebar>
   );
