@@ -280,6 +280,7 @@ logs
 
 node_modules
 bower_components
+frontend/dist/**
 
 *.sublime*
 
