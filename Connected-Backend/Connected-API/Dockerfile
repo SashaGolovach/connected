@@ -1,5 +1,16 @@
-﻿FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+﻿FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
+WORKDIR /app
 
-COPY bin/Release/netcoreapp3.1/publish/ App/
-WORKDIR /App
-ENTRYPOINT ["dotnet", "Connected-API.dll", "--urls", "https://0.0.0.0:5000"]
+# Copy csproj and restore as distinct layers
+COPY ./Connected-API.csproj ./
+RUN dotnet restore
+
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+WORKDIR /app
+COPY --from=build-env /app/out .
+ENTRYPOINT ["dotnet", "Connected-API.dll"]
